@@ -10,6 +10,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,7 +40,14 @@ public class SecurityConfiguration {
 
     @Autowired
     RoleRepository roleRepository;
-
+    @Value("${home.Url}")
+    private String logOutSuccessUrl;
+    @Value("${auth.Url}")
+    private String authUrl;
+    @Value("${admin.Url}")
+    private String adminUrl;
+    @Value("${user.Url}")
+    private String userUrl;
 
     public SecurityConfiguration(RSAKeyProperties keys){
         this.keys = keys;
@@ -63,11 +71,13 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> {
-                    auth.antMatchers("/auth/**").permitAll();//All user can access auth route
-                    auth.antMatchers("/admin/**").hasRole("Admin");// admin can access admin route
-                    auth.antMatchers("/user/**").authenticated();//authenticated users can access user route
+                    auth.antMatchers(authUrl+"/**").permitAll();//All user can access auth route
+                    auth.antMatchers(adminUrl+"/**").hasRole("Admin");// admin can access admin route
+                    auth.antMatchers(userUrl+"/**").authenticated();//authenticated users can access user route
                     auth.anyRequest().permitAll();//user can access other routes
                 });
+        http.logout().logoutUrl(authUrl+userUrl+"/logout")
+                .logoutSuccessUrl(logOutSuccessUrl);
 
         http.oauth2ResourceServer()
                 .jwt()

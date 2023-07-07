@@ -3,10 +3,11 @@ package com.example.authserver.Controllers;
 import com.example.authserver.Entities.Role;
 import com.example.authserver.Service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("${admin.Url}")
 @CrossOrigin("*")
 public class AdminController {
     @Autowired

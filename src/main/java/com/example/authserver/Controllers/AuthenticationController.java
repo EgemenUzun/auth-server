@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("${auth.Url}")
 @CrossOrigin("*")
 public class AuthenticationController {
     @Autowired

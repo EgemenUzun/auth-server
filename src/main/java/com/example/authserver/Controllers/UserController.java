@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.http.HttpRequest;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("${user.Url}")
 @CrossOrigin("*")
 public class UserController {
     @Autowired
