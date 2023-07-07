@@ -76,8 +76,17 @@ public class SecurityConfiguration {
                     auth.antMatchers(userUrl+"/**").authenticated();//authenticated users can access user route
                     auth.anyRequest().permitAll();//user can access other routes
                 });
+        //logout configuration
         http.logout().logoutUrl(authUrl+userUrl+"/logout")
-                .logoutSuccessUrl(logOutSuccessUrl);
+                .logoutSuccessUrl(logOutSuccessUrl)
+                .clearAuthentication(true);
+        //remember me configuration
+        http
+                .rememberMe()
+                .key("rem-me-key")
+                .rememberMeParameter("remember") //Name of checkbox at login page
+                .rememberMeCookieName("rememberlogin") //Cookie name
+                .tokenValiditySeconds(7 * 24 * 60 * 60);//Remember login credentials for number of seconds
 
         http.oauth2ResourceServer()
                 .jwt()

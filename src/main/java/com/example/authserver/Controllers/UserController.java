@@ -6,8 +6,13 @@ import com.example.authserver.Models.RegistrationDTO;
 import com.example.authserver.Service.AuthenticationService;
 import com.example.authserver.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.http.HttpRequest;
 
 @RestController
@@ -29,8 +34,12 @@ public class UserController {
         return userService.changePassword(body);
     }
     @PutMapping("/logout/{userName}")
-    public void logOut(@PathVariable String userName){
+    public void logOut(@PathVariable String userName, HttpServletRequest request, HttpServletResponse response){
         authenticationService.logOut(userName);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
     }
-
 }
+
