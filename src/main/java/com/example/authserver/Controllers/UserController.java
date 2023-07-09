@@ -20,8 +20,6 @@ import java.net.http.HttpRequest;
 @CrossOrigin("*")
 public class UserController {
     @Autowired
-    AuthenticationService authenticationService;
-    @Autowired
     UserService userService;
     @GetMapping("/")
     public String Success()
@@ -33,13 +31,6 @@ public class UserController {
     public ApplicationUser changePassword(@RequestBody RegistrationDTO body){
         return userService.changePassword(body);
     }
-    @PutMapping("/logout/{userName}")
-    public void logOut(@PathVariable String userName, HttpServletRequest request, HttpServletResponse response){
-        authenticationService.logOut(userName);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-    }
+
 }
 

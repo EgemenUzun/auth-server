@@ -83,7 +83,7 @@ public class AuthenticationService {
             return null;
         }
     }
-    public void logOut(String user){
+    public void logOut(String user,String token){
         var timeLog =timeLogRepository.findFirstByUserOrderByLoginDateDesc(userRepository.findByUsername(user).get());
         timeLog.setLogoutDate(new Date());
         timeLogRepository.save(timeLog);
