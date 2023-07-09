@@ -41,11 +41,10 @@ public class AuthenticationController {
         return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
-    @PutMapping("/logout")
-    public void logOut(@RequestBody LogoutDTO body){
-        authenticationService.logOut(body.getUserName(),body.getJwt());
-
-
+    @PostMapping("/logout")
+    @ResponseBody
+    public ResponseEntity<?> logOut(@RequestBody LogoutDTO body){
+        return new ResponseEntity<> (authenticationService.logOut(body.getUserName(),body.getJwt()), HttpStatus.OK);
     }
 
 }

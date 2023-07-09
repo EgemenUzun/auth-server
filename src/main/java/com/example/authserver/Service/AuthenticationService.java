@@ -4,6 +4,7 @@ import com.example.authserver.Entities.ApplicationUser;
 import com.example.authserver.Entities.TimeLog;
 import com.example.authserver.Models.LoginResponseDTO;
 import com.example.authserver.Entities.Role;
+import com.example.authserver.Models.LogoutDTO;
 import com.example.authserver.Repositories.RoleRepository;
 import com.example.authserver.Repositories.TimeLogRepository;
 import com.example.authserver.Repositories.UserRepository;
@@ -83,10 +84,11 @@ public class AuthenticationService {
             return null;
         }
     }
-    public void logOut(String user,String token){
+    public LogoutDTO logOut(String user, String token){
         var timeLog =timeLogRepository.findFirstByUserOrderByLoginDateDesc(userRepository.findByUsername(user).get());
         timeLog.setLogoutDate(new Date());
         timeLogRepository.save(timeLog);
+        return new LogoutDTO(token,user);
     }
 
 }

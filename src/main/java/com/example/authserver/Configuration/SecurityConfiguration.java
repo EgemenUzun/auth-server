@@ -35,9 +35,6 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfiguration {
-    @Autowired
-    UserDetailsService userDetailsService;
-
     private final RSAKeyProperties keys;
 
     @Autowired
@@ -73,21 +70,23 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> {
-                    auth.antMatchers(authUrl+"/**").permitAll();//All user can access auth route
-                    auth.antMatchers(adminUrl+"/**").hasRole("Admin");// admin can access admin route
-                    auth.antMatchers(userUrl+"/**").authenticated();//authenticated users can access user route
+                    auth.antMatchers("/"+authUrl+"/**").permitAll();//All user can access auth route
+                    auth.antMatchers("/"+adminUrl+"/**").hasRole("Admin");// admin can access admin route
+                    auth.antMatchers("/"+userUrl+"/**").authenticated();//authenticated users can access user route
                     auth.anyRequest().permitAll();//user can access other routes
                 });
         //logout configuration
-        http.logout().logoutUrl(authUrl+"/logout")
-                .logoutSuccessUrl(logOutSuccessUrl);
+        http.logout().logoutUrl("auth/logout")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID");
+
         //remember me configuration
         http
                 .rememberMe()
                 .key("rem-me-key")
                 .rememberMeParameter("remember") //Name of checkbox at login page
                 .rememberMeCookieName("rememberlogin")//Cookie name
-                .userDetailsService(userDetailsService)
                 .tokenValiditySeconds(7 * 24 * 60 * 60);//Remember login credentials for number of seconds
 
         http.oauth2ResourceServer()
