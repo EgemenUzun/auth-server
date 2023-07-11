@@ -21,13 +21,13 @@ import java.net.http.HttpRequest;
 public class UserController {
     @Autowired
     UserService userService;
-    @GetMapping("/")
+    @GetMapping
     public String Success()
     {
-        return "User successfuly logged in";
+        return "User controller ";
     }
 
-    @PutMapping("/")
+    @PutMapping("/changePassword")
     public ApplicationUser changePassword(@RequestBody RegistrationDTO body){
         return userService.changePassword(body);
     }

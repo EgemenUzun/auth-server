@@ -76,7 +76,6 @@ public class AuthenticationService {
             var loginLog = new TimeLog(UUID.randomUUID().toString(),user);
             String token = tokenService.generateJwt(auth);
 
-
             timeLogRepository.save(loginLog);
             return new LoginResponseDTO(user, token);
 

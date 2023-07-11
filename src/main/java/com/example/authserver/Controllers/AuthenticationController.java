@@ -2,6 +2,7 @@ package com.example.authserver.Controllers;
 
 import com.example.authserver.Entities.ApplicationUser;
 import com.example.authserver.Entities.Role;
+import com.example.authserver.Models.LoginResponseDTO;
 import com.example.authserver.Models.LogoutDTO;
 import com.example.authserver.Models.RegistrationDTO;
 import com.example.authserver.Service.AuthenticationService;
@@ -34,11 +35,10 @@ public class AuthenticationController {
     }
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> loginUser(@RequestBody RegistrationDTO body){
-        var model =authenticationService.loginUser(body.getUsername(), body.getPassword());
-        if (model!= null)
-            return new ResponseEntity<> (model, HttpStatus.OK);
-        return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+    public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body){
+
+        return authenticationService.loginUser(body.getUsername(), body.getPassword());
+
     }
 
     @PostMapping("/logout")

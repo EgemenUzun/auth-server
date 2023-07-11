@@ -28,19 +28,22 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Configuration
+@EnableWebMvc
 public class SecurityConfiguration {
+
     private final RSAKeyProperties keys;
 
     @Autowired
     RoleRepository roleRepository;
     @Value("${home.Url}")
-    private String logOutSuccessUrl;
+    private String home;
     @Value("${auth.Url}")
     private String authUrl;
     @Value("${admin.Url}")
@@ -73,21 +76,11 @@ public class SecurityConfiguration {
                     auth.antMatchers("/"+authUrl+"/**").permitAll();//All user can access auth route
                     auth.antMatchers("/"+adminUrl+"/**").hasRole("Admin");// admin can access admin route
                     auth.antMatchers("/"+userUrl+"/**").authenticated();//authenticated users can access user route
-                    auth.anyRequest().permitAll();//user can access other routes
+                    auth.anyRequest().authenticated();//user can access other routes
                 });
         //logout configuration
-        http.logout().logoutUrl("auth/logout")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID");
-
+        http.logout().logoutUrl(authUrl+"/logout");
         //remember me configuration
-        http
-                .rememberMe()
-                .key("rem-me-key")
-                .rememberMeParameter("remember") //Name of checkbox at login page
-                .rememberMeCookieName("rememberlogin")//Cookie name
-                .tokenValiditySeconds(7 * 24 * 60 * 60);//Remember login credentials for number of seconds
 
         http.oauth2ResourceServer()
                 .jwt()
