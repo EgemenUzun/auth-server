@@ -43,6 +43,7 @@ public class AuthenticationService {
     @Autowired
     private TimeLogRepository timeLogRepository;
 
+
     public ApplicationUser registerUser(String username, String password){
         Role userRole ;
         // Define first user as an admin
