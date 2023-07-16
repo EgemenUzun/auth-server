@@ -78,8 +78,6 @@ public class SecurityConfiguration {
                     auth.antMatchers("/"+userUrl+"/**").authenticated();//authenticated users can access user route
                     auth.anyRequest().authenticated();//user can access other routes
                 });
-        //logout configuration
-        http.logout().logoutUrl(authUrl+"/logout");
         //remember me configuration
 
         http.oauth2ResourceServer()

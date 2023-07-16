@@ -4,13 +4,10 @@ import com.example.authserver.Entities.ApplicationUser;
 import com.example.authserver.Entities.TimeLog;
 import com.example.authserver.Models.LoginResponseDTO;
 import com.example.authserver.Entities.Role;
-import com.example.authserver.Models.LogoutDTO;
 import com.example.authserver.Repositories.RoleRepository;
 import com.example.authserver.Repositories.TimeLogRepository;
 import com.example.authserver.Repositories.UserRepository;
-import jdk.jfr.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.Expression;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,9 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.persistence.Temporal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,11 +78,10 @@ public class AuthenticationService {
             return null;
         }
     }
-    public LogoutDTO logOut(String user, String token){
+    public void logOut(String user){
         var timeLog =timeLogRepository.findFirstByUserOrderByLoginDateDesc(userRepository.findByUsername(user).get());
         timeLog.setLogoutDate(new Date());
         timeLogRepository.save(timeLog);
-        return new LogoutDTO(token,user);
     }
 
 }

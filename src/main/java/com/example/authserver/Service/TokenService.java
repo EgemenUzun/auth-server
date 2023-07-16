@@ -1,14 +1,17 @@
 package com.example.authserver.Service;
 
+import com.example.authserver.Entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.security.PublicKey;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +40,15 @@ public class TokenService {
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+    public boolean isTokenValid(String token)  {
+        try {
+            return !jwtDecoder.decode(token).getExpiresAt().isBefore(Instant.now());
+        }catch (Exception e){return  false;}
+
+    }
+    public String getRoles(String token){
+        return jwtDecoder.decode(token).getClaim("roles");
     }
 
 

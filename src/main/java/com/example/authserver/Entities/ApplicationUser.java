@@ -1,6 +1,9 @@
 package com.example.authserver.Entities;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +15,7 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Setter
+@AllArgsConstructor
 public class ApplicationUser implements UserDetails {
     @Id
     @Column(name = "user_id",nullable = false)

@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class LogoutDTO {
-    private String jwt;
-    private String userName;
+public class JwtValidResponse {
+    String jwt;
 }
