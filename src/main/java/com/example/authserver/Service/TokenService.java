@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+
 public class TokenService {
     @Autowired
     private JwtEncoder jwtEncoder;
@@ -22,8 +23,8 @@ public class TokenService {
     @Autowired
     private JwtDecoder jwtDecoder;
 
-    public String generateJwt(Authentication auth){
 
+    public String generateJwt(Authentication auth){
         Instant now = Instant.now();
         Instant expiration = now.plus(Duration.ofDays(7));
 

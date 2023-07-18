@@ -76,6 +76,7 @@ class AuthenticationControllerTest {
 
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(response.getBody());
     }
     @Test
     public void testLoginUser_Success() {
