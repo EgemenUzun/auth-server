@@ -39,6 +39,7 @@ dependencies {
 }
 
 test {
+    finalizedBy jacocoTestReport
     jacoco {
         destinationFile = layout.buildDirectory.file('jacoco/jacocoTest.exec').get().asFile
         classDumpDir = layout.buildDirectory.dir('jacoco/classpathdumps').get().asFile
@@ -51,10 +52,20 @@ jacoco {
 }
 
 jacocoTestReport {
+    dependsOn test
     reports {
         xml.required = false
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "com/example/**/Models/**",
+                    "com/example/**/Entities/**"
+
+            ])
+        }))
     }
 }
 
