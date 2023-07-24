@@ -75,6 +75,7 @@ class TokenServiceTest {
                 .thenReturn(jwt);
         //Act
         var response = tokenService.isTokenValid("token");
+
         //Assert
         assertTrue(response);
         assertEquals(!jwt.getExpiresAt().isBefore(Instant.now()),response);
@@ -82,6 +83,7 @@ class TokenServiceTest {
     }
     @Test
     public void tokenInValid_test(){
+        //Arrange
         Map<String,Object> header = new HashMap<>();
         header.put("header","head");
         Map<String,Object> claim = new HashMap<>();
@@ -89,13 +91,16 @@ class TokenServiceTest {
         Jwt jwt =new Jwt("token",Instant.now()
                 ,Instant.now().plus(Duration.ofDays(7)),header,claim);
         when(jwtDecoder.decode(anyString())).thenThrow(new JwtException("Token is expired"));
+
         //Act
         var response = tokenService.isTokenValid("token_invalid");
+
         //Assert
         assertFalse(response);
     }
     @Test
     public void getRole_test(){
+        //Arrange
         Role role = new Role(1,"Admin");
         Map<String,Object> header = new HashMap<>();
         header.put("header","head");
@@ -105,8 +110,10 @@ class TokenServiceTest {
                 ,Instant.now().plus(Duration.ofDays(7)),header,claim);
         when(jwtDecoder.decode(anyString())).thenReturn(jwt);
 
+        //Act
         var response = tokenService.getRoles("token");
 
+        //Assert
         assertEquals(jwt.getClaim("roles"),response);
         assertNotNull(response);
     }

@@ -28,8 +28,7 @@ public class UserService implements UserDetailsService {
     public ApplicationUser changePassword(RegistrationDTO body){
         var user = userRepository.findByUsername(body.getUsername()).get();
         user.setPassword(encoder.encode(body.getPassword()));
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
 }

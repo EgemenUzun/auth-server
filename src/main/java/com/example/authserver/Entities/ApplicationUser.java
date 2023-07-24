@@ -15,7 +15,6 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Setter
-@AllArgsConstructor
 public class ApplicationUser implements UserDetails {
     @Id
     @Column(name = "user_id",nullable = false)
