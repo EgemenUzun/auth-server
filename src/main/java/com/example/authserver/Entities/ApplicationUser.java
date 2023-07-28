@@ -23,10 +23,10 @@ public class ApplicationUser implements UserDetails {
     private String username;
     @Column(name = "password",nullable = false)
     private String password;
-    @Column(name = "date_created")
+    @Column(name = "isEnable")
     private boolean isEnable = true;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
     joinColumns = {@JoinColumn(name = "user_id")},
     inverseJoinColumns = {@JoinColumn(name = "role_id")})

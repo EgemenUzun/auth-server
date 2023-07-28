@@ -55,9 +55,4 @@ public class AuthenticationController {
         authenticationService.logOut(username);
     }
 
-    @PostMapping("/delete/{username}")
-    public void deleteUser(@PathVariable String username){
-        authenticationService.deletUser(username);
-    }
-
 }
