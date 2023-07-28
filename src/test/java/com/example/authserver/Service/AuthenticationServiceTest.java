@@ -227,6 +227,40 @@ class AuthenticationServiceTest {
         verify(timeLogRepository, times(1)).save(any());
     }
 
+    @Test
+    public void getUserByRoles_test(){
+        //Arrange
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(2,"User"));
+        List<ApplicationUser> model = new ArrayList<>();
+        model.add(new ApplicationUser("id","username","password",roles));
+
+        when(userRepository.findAllByAthoritiesIn(any())).thenReturn(model);
+
+        //Act
+        var response =authenticationService.getUserByRoles(roles);
+
+        //Assert
+        assertEquals(model,response);
+
+    }
+
+    @Test
+    public void manageUser_test(){
+        //Arrange
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(2,"User"));
+        var model = new ApplicationUser("id","username","password",roles);
+
+        when(userRepository.save(any())).thenReturn(model);
+
+        //Act
+        var response =authenticationService.manageUser(model);
+
+        //Assert
+        assertEquals(model,response);
+
+    }
 
 
 

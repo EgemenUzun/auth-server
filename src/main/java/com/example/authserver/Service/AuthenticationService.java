@@ -7,19 +7,18 @@ import com.example.authserver.Entities.Role;
 import com.example.authserver.Repositories.RoleRepository;
 import com.example.authserver.Repositories.TimeLogRepository;
 import com.example.authserver.Repositories.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -83,6 +82,13 @@ public class AuthenticationService {
         var timeLog =timeLogRepository.findFirstByUserOrderByLoginDateDesc(userRepository.findByUsername(user).get());
         timeLog.setLogoutDate(new Date());
         timeLogRepository.save(timeLog);
+    }
+    public List<ApplicationUser> getUserByRoles(Set<Role> authority){
+       return userRepository.findAllByAthoritiesIn(authority);
+    }
+
+    public ApplicationUser manageUser(ApplicationUser user){
+        return  userRepository.save(user);
     }
 
 }
