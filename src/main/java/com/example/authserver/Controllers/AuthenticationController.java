@@ -46,11 +46,18 @@ public class AuthenticationController {
     }
 
     @GetMapping("/getRole")
-    public String getRoles(@RequestBody JwtValidResponse token){return  tokenService.getRoles(token.getJwt());}
+    public String getRoles(@RequestBody JwtValidResponse token){
+        return  tokenService.getRoles(token.getJwt());
+    }
 
     @PostMapping("/logout/{username}")
     public void logOut(@PathVariable String username){
         authenticationService.logOut(username);
+    }
+
+    @PostMapping("/delete/{username}")
+    public void deleteUser(@PathVariable String username){
+        authenticationService.deletUser(username);
     }
 
 }

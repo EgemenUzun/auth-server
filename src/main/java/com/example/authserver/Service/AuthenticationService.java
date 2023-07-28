@@ -91,4 +91,7 @@ public class AuthenticationService {
         return  userRepository.save(user);
     }
 
+    public void  deletUser(String userName){
+        userRepository.delete(userRepository.findByUsername(userName).get());
+    }
 }
