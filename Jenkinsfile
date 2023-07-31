@@ -18,16 +18,5 @@ pipeline {
                 bat 'start ./gradlew bootRun'
             }
         }
-
-        stage('Trigger Angular Job') {
-            steps {
-                build job:'Pipeline' , wait:true
-            }
-        }
-        stage('Trigger Authentication Api Job') {
-            steps {
-                build job:'Authentication Api',wait: true
-            }
-        }
     }
 }
