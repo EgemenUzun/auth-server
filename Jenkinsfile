@@ -21,7 +21,7 @@ pipeline {
 
         stage('Trigger Angular Job') {
             steps {
-                build 'Pipeline' , wait:true
+                build job:'Pipeline' , wait:true
             }
         }
 
