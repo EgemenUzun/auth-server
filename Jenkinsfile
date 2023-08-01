@@ -15,7 +15,7 @@ pipeline {
 
         stage('Run App') {
             steps {
-                bat """set JENKINS_NODE_COOKIE=dontKillMe && start /min ./gradlew bootRun"""
+                bat """set JENKINS_NODE_COOKIE=dontKillMe && start /min gradlew bootRun"""
             }
         }
     }
