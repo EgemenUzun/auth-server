@@ -21,8 +21,11 @@ public class AuthServerApplication {
 
     public static void main(String[] args) throws FileNotFoundException {
         PrintStream originalOut = System.out;
+        PrintStream originalErr = System.err;
         PrintStream fileOut = new PrintStream("./out.txt");
+        PrintStream fileErr = new PrintStream("./err.txt");
         System.setOut(fileOut);
+        System.setErr(fileErr);
         SpringApplication.run(AuthServerApplication.class, args);
     }
 }
