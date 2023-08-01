@@ -2,14 +2,10 @@ pipeline {
     agent any
 
     stages {
-    stage('Stop Active Daemon') {
-                steps {
-                    bat 'gradlew --stop'
-                }
-            }
+
         stage('Build') {
             steps {
-                bat './gradlew build -x test'
+                bat './gradlew build -x test --no-daemon'
             }
         }
         stage('Unit Test') {
