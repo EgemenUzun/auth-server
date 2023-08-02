@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+    stage('Stop Active Daemon') {
+                steps {
+                    bat 'gradlew --stop'
+                }
+            }
         stage('Build') {
             steps {
                 bat './gradlew build -x test'
@@ -12,14 +17,10 @@ pipeline {
                 bat './gradlew test'
             }
         }
-    stage('Stop Active Daemon') {
-                steps {
-                    bat 'gradlew --stop'
-                }
-            }
+
         stage('Run App') {
             steps {
-                bat 'start gradlew bootRun'
+                bat """set JENKINS_NODE_COOKIE=dontKillMe && start /min gradlew bootRun"""
             }
         }
     }
