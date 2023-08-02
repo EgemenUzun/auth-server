@@ -20,7 +20,7 @@ pipeline {
 
         stage('Run App') {
             steps {
-                bat """gradlew bootRun"""
+                bat """start gradlew bootRun"""
             }
         }
     }
